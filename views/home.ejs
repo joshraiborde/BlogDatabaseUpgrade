@@ -9,7 +9,9 @@
     <h1><%=post.title%></h1>
     <p>
     <%=post.content.substring(0, 100) + " ..."%>
-    <a href="/posts/<%=post.title%>">Read More</a>
+    
+    <!-- changed the href based on the post id instead of the post name. -->
+    <a href="/posts/<%=post._id%>">Read More</a>
     </p>
 
 
