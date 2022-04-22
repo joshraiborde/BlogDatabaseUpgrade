@@ -37,9 +37,9 @@ const Post = mongoose.model("Post", postSchema);
 // Delete the existing posts array.
 // let posts = [];
 
-app.get("/", function(req, res){
+app.get("/", (req, res) => {
 // Find all the posts in the posts collection and render that in the home.ejs file.
-Post.find({}, function(err, posts){
+Post.find({}, (err, posts) => {
   res.render("home", {
     startingContent: homeStartingContent,
     posts: posts
@@ -47,12 +47,12 @@ Post.find({}, function(err, posts){
 });
 });
 
-app.get("/compose", function(req, res){
+app.get("/compose", (req, res) => {
   res.render("compose");
 });
 
 
-app.post("/compose", function(req, res){
+app.post("/compose", (req, res) => {
   // create a new post document using the mongoose model.
   const post = new Post({
     title: req.body.postTitle,
@@ -60,7 +60,7 @@ app.post("/compose", function(req, res){
   });
   // save the document to the database instead of pushing to the posts array.
   // posts.push(post);
-  post.save(function(err){
+  post.save((err) => {
     if (!err){
         res.redirect("/");
     }
@@ -68,14 +68,14 @@ app.post("/compose", function(req, res){
 });
 
 // changed the express route parameter to postId instead postName
-app.get("/posts/:postId", function(req, res){
+app.get("/posts/:postId", (req, res) => {
   // const requestedTitle = _.lowerCase(req.params.postName);
 
   // create a const to store the postId parameter value
   // const requestedPostId = _.lowerCase(req.params.postId);
   const requestedPostId = req.params.postId;
 
-  Post.findOne({_id: requestedPostId}, function(err, post){
+  Post.findOne({_id: requestedPostId}, (err, post) => {
     res.render("post", {
       title: post.title,
       content: post.content
@@ -94,14 +94,14 @@ app.get("/posts/:postId", function(req, res){
   // });
 });
 
-app.get("/about", function (req, res) {
+app.get("/about",  (req, res) => {
   res.render("about", { aboutContent: aboutContent });
 });
 
-app.get("/contact", function (req, res) {
+app.get("/contact",  (req, res) => {
   res.render("contact", { contactContent: contactContent });
 });
 
-app.listen(port, function () {
+app.listen(port, () => {
   console.log("Server is running on Port " + port + " on " + now.toUTCString());
 });
