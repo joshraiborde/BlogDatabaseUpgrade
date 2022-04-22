@@ -33,13 +33,17 @@ const postSchema = {
 // create a new mongoose based on the postSchema
 const Post = mongoose.model("Post", postSchema);
 
-let posts = [];
+// Delete the existing posts array.
+// let posts = [];
 
 app.get("/", function (req, res) {
+// Find all the posts in the posts collection and render that in the home.ejs file.
+  Post.find({}, function(err, posts){
   res.render("home", {
     startingContent: homeStartingContent,
     posts: posts
   });
+});
 });
 
 app.get("/about", function (req, res) {
@@ -55,14 +59,20 @@ app.get("/compose", function (req, res) {
 });
 
 app.post("/compose", function (req, res) {
-  const post = {
+  // create a new post document using the mongoose model.
+  const post = new Post ({
     title: req.body.postTitle,
     content: req.body.postBody
-  };
-
-  posts.push(post);
+  });
+  // save the document to the database instead of pushing to the posts array.
+  // posts.push(post);
+  post.save(function(err){
+    if(!err){
 
   res.redirect("/");
+    }
+  });
+
 });
 
 app.get("/posts/:postName", function (req, res) {
